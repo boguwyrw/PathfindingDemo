@@ -5,10 +5,10 @@ public class AlgorithmBFS
 {
     private readonly Vector2Int[] directions = new Vector2Int[]
     {
-        new Vector2Int(0, 1),   // góra
-        new Vector2Int(0, -1),  // dó³
-        new Vector2Int(-1, 0),  // lewo
-        new Vector2Int(1, 0)    // prawo
+        new Vector2Int(0, 1),   // up
+        new Vector2Int(0, -1),  // down
+        new Vector2Int(-1, 0),  // left
+        new Vector2Int(1, 0)    // right
     };
 
     public List<Vector2Int> FindPath(int[,] grid, Vector2Int start, Vector2Int goal)
