@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: ObstacleTile
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 2085578873336793612, guid: 03b6d6ad6ac839b4eb11e97ee9b595f7, type: 3}
-  tileColor: {r: 0, g: 0, b: 0, a: 0}
+  tileColor: {r: 1, g: 0, b: 0, a: 0}
   isTraversable: 0
+  tileMarker: -1
