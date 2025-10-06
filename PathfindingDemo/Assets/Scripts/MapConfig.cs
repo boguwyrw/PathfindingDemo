@@ -1,7 +1,10 @@
-[System.Serializable]
-public class MapConfig
+namespace pathfinding.demo
 {
-    public string Width;
-    public string Height;
-    public string[] Map;
+    [System.Serializable]
+    public class MapConfig
+    {
+        public string Width;
+        public string Height;
+        public string[] Map;
+    }
 }

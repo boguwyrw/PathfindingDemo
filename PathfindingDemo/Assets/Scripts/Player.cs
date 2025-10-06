@@ -1,39 +1,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace pathfinding.demo
 {
-    [SerializeField] private int moveRange = 4;
-    [SerializeField] private int attackRange = 3;
-
-    private Vector2Int playerPosition;
-
-    public Vector2Int PlayerPosition { get { return playerPosition; } }
-
-    public List<Vector2Int> AvailableMoveTiles => AvailableTiles(moveRange);
-    public List<Vector2Int> AvailableAttackTiles => AvailableTiles(attackRange);
-
-    private void Start()
+    public class Player : MonoBehaviour
     {
-        int posX = Mathf.RoundToInt(transform.position.x);
-        int posZ = Mathf.RoundToInt(transform.position.z);
-        playerPosition = new Vector2Int(posX, posZ);
-    }
+        private int moveRange = 4;
+        private int attackRange = 3;
 
-    public List<Vector2Int> AvailableTiles(int range)
-    {
-        List<Vector2Int> availableTilesList = new List<Vector2Int>();
+        private Vector2Int playerPosition;
 
-        for (int x = -range; x <= range; x++)
+        public Vector2Int PlayerPosition { get { return playerPosition; } }
+
+        public List<Vector2Int> AvailableMoveTiles => AvailableTiles(moveRange);
+        public List<Vector2Int> AvailableAttackTiles => AvailableTiles(attackRange);
+
+        private void Start()
         {
-            for (int z = -range; z <= range; z++)
-            {
-                Vector2Int availableTileCoordinates = new Vector2Int(x, z);
-                Vector2Int availableCoordinates = playerPosition + availableTileCoordinates;
-                availableTilesList.Add(availableCoordinates);
-            }
+            int posX = Mathf.RoundToInt(transform.position.x);
+            int posZ = Mathf.RoundToInt(transform.position.z);
+            playerPosition = new Vector2Int(posX, posZ);
+
+            moveRange = GameManager.Instance.PlayerMoveRange;
+            attackRange = GameManager.Instance.PlayerAttackRange;
         }
 
-        return availableTilesList;
+        public List<Vector2Int> AvailableTiles(int range)
+        {
+            List<Vector2Int> availableTilesList = new List<Vector2Int>();
+
+            for (int x = -range; x <= range; x++)
+            {
+                for (int z = -range; z <= range; z++)
+                {
+                    Vector2Int availableTileCoordinates = new Vector2Int(x, z);
+                    Vector2Int availableCoordinates = playerPosition + availableTileCoordinates;
+                    availableTilesList.Add(availableCoordinates);
+                }
+            }
+
+            return availableTilesList;
+        }
     }
 }

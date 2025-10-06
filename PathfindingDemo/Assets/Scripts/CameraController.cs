@@ -1,82 +1,85 @@
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+namespace pathfinding.demo
 {
-    [SerializeField] private CinemachineCamera cinemachineCamera;
-    [SerializeField] private CinemachineRotationComposer rotationComposer;
-
-    private float moveSpeed = 10.0f;
-    private float rotationSpeed = 10.0f;
-    private float zoomValue = 5.0f;
-    private float zoomMax = 100.0f;
-    private float zoomMin = 10.0f;
-    private float zoomFieldOfView = 50.0f;
-
-    private void Update()
+    public class CameraController : MonoBehaviour
     {
-        CameraMovement();
-        CameraRotation();
-        CameraZoom();
-    }
+        [SerializeField] private CinemachineCamera cinemachineCamera;
+        [SerializeField] private CinemachineRotationComposer rotationComposer;
 
-    private void CameraMovement()
-    {
-        Vector3 inputMoveDirection = new Vector3();
+        private float moveSpeed = 10.0f;
+        private float rotationSpeed = 10.0f;
+        private float zoomValue = 5.0f;
+        private float zoomMax = 100.0f;
+        private float zoomMin = 10.0f;
+        private float zoomFieldOfView = 50.0f;
 
-        if (Input.GetKey(KeyCode.W))
+        private void Update()
         {
-            inputMoveDirection.z = +1f;
+            CameraMovement();
+            CameraRotation();
+            CameraZoom();
         }
 
-        if (Input.GetKey(KeyCode.S))
+        private void CameraMovement()
         {
-            inputMoveDirection.z = -1f;
+            Vector3 inputMoveDirection = new Vector3();
+
+            if (Input.GetKey(KeyCode.W))
+            {
+                inputMoveDirection.z = +1f;
+            }
+
+            if (Input.GetKey(KeyCode.S))
+            {
+                inputMoveDirection.z = -1f;
+            }
+
+            if (Input.GetKey(KeyCode.D))
+            {
+                inputMoveDirection.x = +1f;
+            }
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                inputMoveDirection.x = -1f;
+            }
+
+            Vector3 moveVector = transform.forward * inputMoveDirection.z + transform.right * inputMoveDirection.x;
+
+            transform.position += moveVector * moveSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.D))
+        private void CameraRotation()
         {
-            inputMoveDirection.x = +1f;
+            Vector3 rotationVector = new Vector3();
+
+            if (Input.GetKey(KeyCode.Q))
+            {
+                rotationVector.x = +1f;
+            }
+
+            if (Input.GetKey(KeyCode.E))
+            {
+                rotationVector.x = -1f;
+            }
+
+            rotationComposer.TargetOffset += rotationVector * rotationSpeed * Time.deltaTime;
         }
 
-        if (Input.GetKey(KeyCode.A))
+        private void CameraZoom()
         {
-            inputMoveDirection.x = -1f;
+            if (Input.mouseScrollDelta.y > 0 && cinemachineCamera.Lens.FieldOfView < zoomMax)
+            {
+                zoomFieldOfView += zoomValue;
+            }
+            if (Input.mouseScrollDelta.y < 0 && cinemachineCamera.Lens.FieldOfView > zoomMin)
+            {
+                zoomFieldOfView -= zoomValue;
+            }
+
+            cinemachineCamera.Lens.FieldOfView = zoomFieldOfView;
         }
-
-        Vector3 moveVector = transform.forward * inputMoveDirection.z + transform.right * inputMoveDirection.x;
-
-        transform.position += moveVector * moveSpeed * Time.deltaTime;
-    }
-
-    private void CameraRotation()
-    {
-        Vector3 rotationVector = new Vector3();
-
-        if (Input.GetKey(KeyCode.Q))
-        {
-            rotationVector.x = +1f;
-        }
-
-        if (Input.GetKey(KeyCode.E))
-        {
-            rotationVector.x = -1f;
-        }
-
-        rotationComposer.TargetOffset += rotationVector * rotationSpeed * Time.deltaTime;
-    }
-
-    private void CameraZoom()
-    {
-        if (Input.mouseScrollDelta.y > 0 && cinemachineCamera.Lens.FieldOfView < zoomMax)
-        {
-            zoomFieldOfView += zoomValue;
-        }
-        if (Input.mouseScrollDelta.y < 0 && cinemachineCamera.Lens.FieldOfView > zoomMin)
-        {
-            zoomFieldOfView -= zoomValue;
-        }
-
-        cinemachineCamera.Lens.FieldOfView = zoomFieldOfView;
     }
 }
