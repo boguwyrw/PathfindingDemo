@@ -1,1 +1,1 @@
-# PathfindingDemo
+# Pathfinding Demo using BFS
